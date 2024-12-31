@@ -20,6 +20,7 @@
 
 <script setup>
 import tabbarData from "@/assets/data/tabbarData.js";
+import router from "@/router";
 import getAssetUrl from "@/utils/load_assets";
 // import getAssetUrl from "@/utils/load_assets.js";
 import { toRef } from "vue";
@@ -30,11 +31,10 @@ const props = defineProps({
   },
 });
 const currentIndex = toRef(0);
-console.log(tabbarData);
 //监听导航按钮点击
 function tabbarClick(index, item) {
   currentIndex.value = index;
-  //TODO 路由切换页面
+  router.push(item.path);
 }
 
 </script>

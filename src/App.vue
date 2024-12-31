@@ -7,7 +7,7 @@
 
 <script setup>
 import tabbarData from "@/assets/data/tabbarData.js";
-import TabBar from '@/components/TabBar.vue';
+import TabBar from '@/components/common/navbar/TabBar.vue';
 import home from '@/views/home/home.vue';
 </script>
 

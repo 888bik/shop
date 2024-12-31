@@ -1,6 +1,6 @@
 <template>
   <div>
-    shopCart
+    购物车界面
   </div>
 </template>
 

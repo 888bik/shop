@@ -1,6 +1,6 @@
 <template>
   <div>
-    分类界面
+    注册界面
   </div>
 </template>
 

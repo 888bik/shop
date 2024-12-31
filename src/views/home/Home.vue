@@ -1,25 +1,47 @@
 <template>
-    首页
+  <div class="top-nav-bar">
     <nav-bar>
-        <template v-slot:default>网上商城</template>
+      <template v-slot:default>网上商城</template>
     </nav-bar>
+  </div>
+  <div class="swipe">
+    <van-swipe>
+      <!-- 使用 v-for 渲染所有的图片 -->
+      <van-swipe-item v-for="(item, index) in imagesData" :key="index">
+        <!-- 使用 :src 动态绑定图片路径 -->
+        <img :src="item.image" alt="image" class="swipe-image" />
+      </van-swipe-item>
+      <template #indicator="{ active, total }">
+        <div class="custom-indicator">{{ active + 1 }}/{{ total }}</div>
+      </template>
+    </van-swipe>
+  </div>
 </template>
 
-<script>
-import { reactive , toRefs } from 'vue';
-import NavBar from '../../components/common/navbar/NavBar.vue'
-export default {
-    name: 'Home',
-    components: {
-        NavBar
-    },
-    setup() {
-        const state = reactive({
-            count: 0
-        });
-        return {
-            ...toRefs(state)
-        }
-    }
-}
+<script setup>
+import navbar from "@/components/common/navbar/NavBar.vue";
+
+// 使用 import 直接引入图片
+const imagesData = [
+  { image: new URL("@/assets/image/home/image1.png", import.meta.url).href },
+  { image: new URL("@/assets/image/home/image2.png", import.meta.url).href },
+  { image: new URL("@/assets/image/home/image3.png", import.meta.url).href },
+];
 </script>
+
+<style scoped>
+.swipe-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* 确保图片不失真 */
+}
+
+.custom-indicator {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  padding: 2px 5px;
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.1);
+}
+</style>
