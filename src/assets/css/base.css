@@ -1,0 +1,25 @@
+@import './normalize.css';
+
+:root{
+    --color-text: #666;
+    --color-height-text:#42bbaa;
+    --color-tint: #42b983;
+    --font-size: 14px;
+    --line-height: 1.5;
+}
+*,*::before,*::after{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+body{
+    user-select:none;background:var(--color-background);
+    color:var(--color-text);
+    width: 100vw;
+}
+a{
+    text-decoration:none;
+}
+a:hover{
+    color:var(--color-height-text);
+}
