@@ -16,5 +16,4 @@ pnpm run build
 ```
 
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-12312
+See [Configuration Reference](https://cli.vuejs.org/config/)
