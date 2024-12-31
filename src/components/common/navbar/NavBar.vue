@@ -2,7 +2,7 @@
     <div class="nav-bar">
         <div class="left" @click="goBack">
             <slot name="left">
-                <i class="el-icon-arr-left"></i>
+                <el-icon size="20"><Back /></el-icon>
             </slot>
         </div>
     </div>
@@ -20,6 +20,8 @@
 <script>
 import { reactive, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
+import { Back } from '@element-plus/icons-vue'; // 导入图标组件
+
 export default {
     setup() {
         const state = reactive({
@@ -33,12 +35,14 @@ export default {
             ...toRefs(state),
             goBack
         }
+    },
+    components: {
+        Back // 注册图标组件
     }
 }
 </script>
 
-<style lang="less" scoped>
-@import './NavBar.less';
+<style lang="scss" scoped>
 .nav-bar {
     background-color: #42b983;
     color: #fff;
