@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
-
-const routes = [
+import Home from "../views/home/Home.vue";
+const base = import.meta.VITE_BASE_URL || '/';
+const router = createRouter({
+  history: createWebHistory(base),
+  routes: [
     {
       path: "/",
       name: "Home",
@@ -37,9 +40,9 @@ const routes = [
       component:()=>import("../views/profile/Profile.vue")
     }
   ]
-  
-  const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes: routers.routes,
-  });
+})
+  router.beforeEach((to,from,next)=>{
+    next();
+    document.title = to.name;
+  })
 export default router;
