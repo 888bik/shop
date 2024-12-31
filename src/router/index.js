@@ -3,7 +3,8 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
     {
       path: "/",
-      redirect: "/home",
+      name: "Home",
+      component: () => import("../views/home/Home.vue"),
     },
     {
       path: "/:catchAll(.*)",
