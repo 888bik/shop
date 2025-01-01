@@ -1,153 +1,155 @@
 <template>
-  <div class="registration-container">
-    <h1>创建账户</h1>
-    <p class="subtitle">加入我们，开始您的旅程</p>
-    <form id="registrationForm" onsubmit="return handleRegister()">
-      <div class="input-group">
-        <label for="username">用户名</label>
-        <input type="text" id="username" placeholder="输入用户名" required />
+  <div class="container">
+    <div class="form-container">
+      <div class="form-header">
+        <h2>{{ isLogin ? '登录' : '注册' }}</h2>
+        <p v-if="isLogin" @click="toggleForm">没有账号？去注册</p>
+        <p v-else @click="toggleForm">已有账号？去登录</p>
       </div>
-      <div class="input-group">
-        <label for="email">邮箱</label>
-        <input type="email" id="email" placeholder="输入邮箱" required />
-      </div>
-      <div class="input-group">
-        <label for="password">密码</label>
-        <input type="password" id="password" placeholder="输入密码" required />
-      </div>
-      <div class="input-group">
-        <label for="confirm-password">确认密码</label>
-        <input
-          type="password"
-          id="confirm-password"
-          placeholder="确认密码"
-          required
-        />
-      </div>
-      <button type="submit">注册</button>
-    </form>
-    <div id="message"></div>
-    <div class="footer">
-      <p>已经有账户？<a href="#">登录</a></p>
+
+      <form @submit.prevent="handleSubmit">
+        <div class="input-group">
+          <input
+            v-model="formData.username"
+            type="text"
+            placeholder="请输入用户名"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <input
+            v-model="formData.password"
+            type="password"
+            placeholder="请输入密码"
+            required
+          />
+        </div>
+        <div v-if="!isLogin" class="input-group">
+          <input
+            v-model="formData.confirmPassword"
+            type="password"
+            placeholder="确认密码"
+            required
+          />
+        </div>
+        <div class="submit-btn">
+          <button type="submit">{{ isLogin ? '登录' : '注册' }}</button>
+        </div>
+      </form>
     </div>
   </div>
 </template>
-<script>
-function handleRegister() {
-  const username = document.getElementById("username").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const confirmPassword = document.getElementById("confirm-password").value;
-  const messageElement = document.getElementById("message");
 
-  // 简单的验证
-  if (password !== confirmPassword) {
-    messageElement.textContent = "密码和确认密码不匹配！";
-    messageElement.style.color = "red";
-    return false;
+<script setup>
+import { ref } from 'vue';
+
+const isLogin = ref(true); // 控制登录或注册状态
+const formData = ref({
+  username: '',
+  password: '',
+  confirmPassword: ''
+});
+
+const toggleForm = () => {
+  isLogin.value = !isLogin.value; // 切换表单状态
+  formData.value = { username: '', password: '', confirmPassword: '' }; // 清空表单数据
+};
+
+const handleSubmit = () => {
+  if (isLogin.value) {
+    console.log('登录数据:', formData.value);
+  } else {
+    if (formData.value.password === formData.value.confirmPassword) {
+      console.log('注册数据:', formData.value);
+    } else {
+      alert('密码和确认密码不一致！');
+    }
   }
-
-  // 进行进一步处理，例如发送数据到服务器
-  messageElement.textContent = "注册成功！";
-  messageElement.style.color = "green";
-
-  // 阻止表单的默认提交行为
-  return false;
-}
+};
 </script>
-<style>
-body {
+
+<style scoped>
+/* 基本布局 */
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-  font-family: "Arial", sans-serif;
+  background-color:#DCDCDC;
 }
 
-.registration-container {
-  background: white;
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
-  max-width: 450px;
+.form-container {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
   width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-header {
   text-align: center;
-}
-
-h1 {
-  margin-bottom: 10px;
-  color: #1e88e5;
-}
-
-.subtitle {
   margin-bottom: 20px;
-  color: #555;
-  font-size: 14px;
+}
+
+.form-header h2 {
+  color: red;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.form-header p {
+  color: #999;
+  cursor: pointer;
 }
 
 .input-group {
-  margin-bottom: 20px;
-  text-align: left;
+  margin-bottom: 15px;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #333;
-}
-
-input {
+.input-group input {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  transition: border-color 0.3s;
-  font-size: 14px;
-  box-sizing: border-box; /* 确保padding不超出宽度 */
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
-input:focus {
-  border-color: #1e88e5;
-  outline: none;
-  box-shadow: 0 0 5px rgba(30, 136, 229, 0.5);
+.submit-btn {
+  text-align: center;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #1e88e5;
+.submit-btn button {
+  background-color: red;
   color: white;
   border: none;
+  padding: 12px 20px;
   border-radius: 5px;
-  font-weight: bold;
+  font-size: 18px;
+  width: 100%;
   cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 16px;
 }
 
-button:hover {
-  background-color: #1976d2;
+.submit-btn button:hover {
+  background-color: red;
 }
 
-#message {
-  text-align: center;
-  margin-top: 15px;
-  color: red;
-}
+@media (max-width: 600px) {
+  .form-container {
+    padding: 15px;
+  }
 
-.footer {
-  text-align: center;
-  margin-top: 20px;
-}
+  .form-header h2 {
+    font-size: 20px;
+  }
 
-.footer a {
-  color: #1e88e5;
-  text-decoration: none;
-}
+  .input-group input {
+    font-size: 14px;
+  }
 
-.footer a:hover {
-  text-decoration: underline;
+  .submit-btn button {
+    font-size: 16px;
+  }
 }
 </style>

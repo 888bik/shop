@@ -11,4 +11,6 @@ import TabBar from '@/components/common/navbar/TabBar.vue';
 import home from '@/views/home/home.vue';
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="less" scoped>
+
+</style>
