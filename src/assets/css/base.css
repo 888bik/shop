@@ -6,6 +6,7 @@
     --color-tint: #42b983;
     --font-size: 14px;
     --line-height: 1.5;
+    --background-color:#f5f5f5;
 }
 *,*::before,*::after{
     margin:0;
@@ -16,6 +17,7 @@ body{
     user-select:none;background:var(--color-background);
     color:var(--color-text);
     width: 100vw;
+    background-color: var(--background-color);
 }
 a{
     text-decoration:none;

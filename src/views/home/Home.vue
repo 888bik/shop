@@ -10,7 +10,7 @@
   
   <script setup>
   import NavBar from "@/components/common/navbar/NavBar.vue";
-  import Banner from "@/views/home/Banner.vue"; // 确保路径正确
+  import Banner from "@/views/home/cpns/Banner.vue"; // 确保路径正确
   </script>
   
   <style scoped>
