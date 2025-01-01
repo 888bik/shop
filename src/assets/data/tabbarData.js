@@ -21,7 +21,7 @@ const tabbarData = [
     text: "我的",
     image: "tabbar/tab_my.png",
     imageActive: "tabbar/tab_my_active.png",
-    path: "/login",
+    path: "/my",
   },
 ];
 
