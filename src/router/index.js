@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-
+import Home from "../views/home/Home.vue";
+const base = import.meta.VITE_BASE_URL || '/';
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(base),
   routes: [
     {
       //默认路径
@@ -18,17 +19,22 @@ const router = createRouter({
     },
     {
       path: "/shopCart",
-      component: () => import("@/views/shopCart/ShopCart.vue"),
+      component: () => import("@/views/shopcart/Shopcart.vue"),
     },
     {
       path: "/login",
       component: () => import("@/views/login/Login.vue"),
     },
     {
-      path: "/:catchAll(.*)", // 匹配所有没有定义的路由
-      name: "NotFound",
-      component: () => import("@/views/notFound.vue"),
-    },
-  ],
-});
+      path:"/profile",
+      name:"Profile",
+      component:()=>import("../views/profile/Profile.vue")
+    }
+  ]
+})
+//路由守卫
+  router.beforeEach((to,from,next)=>{
+    next();
+    document.title = to.name;
+  })
 export default router;
