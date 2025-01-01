@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/home/Home.vue";
-const base = import.meta.VITE_BASE_URL || '/';
+const base = import.meta.VITE_BASE_URL || "/";
 const router = createRouter({
   history: createWebHistory(base),
   routes: [
@@ -22,19 +22,24 @@ const router = createRouter({
       component: () => import("@/views/shopCart/ShopCart.vue"),
     },
     {
+      path: "/detail/:id",
+      component: () => import("@/views/detail/detail.vue"),
+      props: true,
+    },
+    {
       path: "/login",
       component: () => import("@/views/login/Login.vue"),
     },
     {
-      path:"/profile",
-      name:"Profile",
-      component:()=>import("../views/profile/Profile.vue")
-    }
-  ]
-})
+      path: "/profile",
+      name: "Profile",
+      component: () => import("../views/profile/Profile.vue"),
+    },
+  ],
+});
 //路由守卫
-  router.beforeEach((to,from,next)=>{
-    next();
-    document.title = to.name;
-  })
+router.beforeEach((to, from, next) => {
+  next();
+  document.title = to.name;
+});
 export default router;

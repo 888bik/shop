@@ -8,8 +8,9 @@
     </div>
 
     <!-- 商品列表 -->
-    <div class="GoodsList">
-      <goods-list></goods-list>
+    <div class="GoodsList" v-for="(item, index) in GoodsData" :key="index">
+      <goods-list :index="index"></goods-list>
+      <div class="divider"></div>
     </div>
   </div>
 </template>
@@ -18,7 +19,6 @@
 import { reactive, toRefs } from "vue";
 import NavBar from "../../components/common/navbar/NavBar.vue";
 import GoodsList from "@/views/shopCart/cpns/GoodsList.vue";
-
 export default {
   name: "Home",
   components: {
@@ -29,29 +29,75 @@ export default {
     const state = reactive({
       count: 0,
     });
+    //TODO
+    
+    const GoodsData = [
+      {
+        num: 3,
+        price: 9.99,
+        desc: "牛逼",
+        title: "bi",
+        thumb: "@/assets/image/home/image1.png",
+      },
+      {
+        num: 4,
+        price: 9.99,
+        desc: "牛逼",
+        title: "bi",
+        thumb: "@/assets/image/home/image1.png",
+      },
+      {
+        num: 7,
+        price: 9.99,
+        desc: "牛逼",
+        title: "bi",
+        thumb: "@/assets/image/home/image1.png",
+      },
+      {
+        num: 7,
+        price: 9.99,
+        desc: "牛逼",
+        title: "bi",
+        thumb: "@/assets/image/home/image1.png",
+      },
+      {
+        num: 7,
+        price: 9.99,
+        desc: "牛逼",
+        title: "bi",
+        thumb: "@/assets/image/home/image1.png",
+      },
+      ,
+    ];
     return {
       ...toRefs(state),
+      GoodsData,
     };
   },
 };
 </script>
 
 <style lang="less" scoped>
+.divider {
+  width: 100%;
+  height: 5px; /* 控制分割线的厚度 */
+  background-color: white; /* 控制分割线的颜色 */
+}
 .page-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* 确保页面占满整个视口 */
+  min-height: 100vh;
 }
 
 .NavBar {
-  /* 设置导航栏样式 */
   background-color: #fff;
   padding: 10px;
 }
 
 .GoodsList {
-  flex-grow: 1; 
+  // flex-grow: 1;
+  overflow-y: auto;
   padding: 20px;
-  background-color: #f5f5f5; 
+  background-color: #f5f5f5;
 }
 </style>

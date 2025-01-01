@@ -1,5 +1,7 @@
 <template>
   <div class="tab-bar">
+    <!-- 分割线 -->
+    <div class="divider"></div>
     <template v-for="(item, index) in props.tabbarData" :key="index">
       <div
         class="tab-bar-item"
@@ -25,7 +27,7 @@ import { toRef } from "vue";
 
 const props = defineProps({
   tabbarData: {
-    type: Array, // 修改为 Array 类型
+    type: Array, 
     default: () => [],
   },
 });
@@ -47,7 +49,14 @@ function tabbarClick(index, item) {
   right: 0;
   height: 50px;
   display: flex;
-
+  background-color: white;
+  .divider {
+    width: 100%;
+    height: 1px; /* 控制分割线的厚度 */
+    background-color: #f2f2f2; /* 控制分割线的颜色 */
+    position: fixed;
+    bottom: 5;
+  }
   .tab-bar-item {
     flex: 1;
     display: flex;

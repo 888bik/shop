@@ -1,17 +1,24 @@
 <template>
-    <div class="top-nav-bar">
-      <nav-bar>
-        <template v-slot:default>网上商城</template>
-      </nav-bar>
-    </div>
-    <!-- 引入并使用 Banner 组件 -->
-    <banner></banner>
-  </template>
-  
-  <script setup>
-  import NavBar from "@/components/common/navbar/NavBar.vue";
-  import Banner from "@/views/home/cpns/Banner.vue"; // 确保路径正确
-  </script>
-  
-  <style scoped>
-  </style>
+  <div class="top-nav-bar">
+    <nav-bar>
+      <template v-slot:default>网上商城</template>
+    </nav-bar>
+  </div>
+  <!-- 轮播图 -->
+  <div class="swipe-banner">
+    <banner :recommendData="recommendData"></banner>
+  </div>
+  <!-- 推荐 -->
+  <div class="recommend-list">
+    <recommend></recommend>
+  </div>
+</template>
+
+<script setup>
+import NavBar from "@/components/common/navbar/NavBar.vue";
+import Banner from "@/views/home/cpns/Banner.vue";
+import Recommend from "@/views/home/cpns/Recommend.vue";
+import recommendData from '@/assets/data/recommendData.js';
+</script>
+
+<style scoped></style>
