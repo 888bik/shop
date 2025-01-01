@@ -41,6 +41,7 @@ const router = createRouter({
     }
   ]
 })
+//路由守卫
   router.beforeEach((to,from,next)=>{
     next();
     document.title = to.name;
