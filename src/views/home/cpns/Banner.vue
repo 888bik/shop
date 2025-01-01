@@ -1,6 +1,6 @@
 <template>
     <div class="swipe">
-      <van-swipe>
+      <van-swipe :autoplay="3000" indicator-color="white">
         <!-- 使用 v-for 渲染所有的图片 -->
         <van-swipe-item v-for="(item, index) in imagesData" :key="index">
           <!-- 使用 :src 动态绑定图片路径 -->
@@ -25,7 +25,7 @@
   <style scoped>
   .swipe-image {
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: cover; /* 确保图片不失真 */
   }
   

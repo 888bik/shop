@@ -19,7 +19,7 @@ const router = createRouter({
     },
     {
       path: "/shopCart",
-      component: () => import("@/views/shopcart/Shopcart.vue"),
+      component: () => import("@/views/shopCart/ShopCart.vue"),
     },
     {
       path: "/login",
