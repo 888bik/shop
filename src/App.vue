@@ -8,7 +8,7 @@
 <script setup>
 import tabbarData from "@/assets/data/tabbarData.js";
 import TabBar from '@/components/common/navbar/TabBar.vue';
-import home from '@/views/home/home.vue';
+import home from '@/views/home/Home.vue';
 </script>
 
 <style lang="scss" scoped></style>
