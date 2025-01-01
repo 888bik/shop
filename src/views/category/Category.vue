@@ -95,13 +95,9 @@ export default {
     margin-bottom: 10px;
 }
 
-<<<<<<< HEAD
-</style>
-=======
 .category-list img {
     width: 30px; /* 调整图标的宽度 */
     height: 30px; /* 调整图标的高度 */
     margin-right: 10px; /* 图标和文本之间的间距 */
 }
 </style>
->>>>>>> bd9fd302119be44da4ca076248c48b837e3ea0d0
