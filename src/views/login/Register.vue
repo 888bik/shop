@@ -115,7 +115,9 @@ const handleSubmit = async () => {
 
     if (error.response && error.response.data) {
       const responseData = error.response.data;
-      if (responseData.msg) {
+      if (responseData.data && responseData.data.msg) {
+        showToast(responseData.data.msg);
+      } else if (responseData.msg) {
         showToast(responseData.msg);
       } else {
         showToast('注册失败，请重试');

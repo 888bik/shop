@@ -82,7 +82,7 @@ router.get("/api/products/:id", async function (req, res, next) {
   try {
     const { id } = req.params; // 获取商品的 id
     const sql = product.queryProductById({ id }); // 查询单个商品的 SQL 语句
-    const [result] = await db.queryUser(sql, [id]);
+    const [result] = await db.query(sql, [id]);
     if (result.length === 0) {
       return res.status(404).json({
         code: 404,
@@ -106,6 +106,7 @@ router.get("/api/products/:id", async function (req, res, next) {
     });
   }
 });
+
 // 根据分类id查询商品
 // router.get("/api/products/:category_id", async function (req, res, next) {
 //   try {
@@ -139,6 +140,7 @@ router.get("/api/products/:id", async function (req, res, next) {
 
 // 注册
 router.post("/api/register", async (req, res, next) => {
+  try {
     // 验证输入
     if (!req.body.userName || !req.body.password) {
       return res.status(400).send({
@@ -179,6 +181,16 @@ router.post("/api/register", async (req, res, next) => {
         success: true,
       },
     });
+  } catch (error) {
+    console.error("Register failed:", error);
+    return res.status(500).send({
+      code: 500,
+      data: {
+        msg: "服务器错误",
+        success: false,
+      },
+    });
+  }
 });
 
 module.exports = router;

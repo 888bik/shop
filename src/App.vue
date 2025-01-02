@@ -10,10 +10,13 @@
 <script setup>
 import tabbarData from "@/assets/data/tabbarData.js";
 import TabBar from "@/components/common/tabbar/TabBar.vue";
-import home from "@/views/home/Home.vue";
 import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
-
+import { useUserStore } from '@/stores/index.js';
+const store = useUserStore();
+onMounted(()=>{
+  store.initUser();
+});
 //控制底部导航栏是否显示
 const showFooter = ref(true);
 // 使用 `watch` 监听路由变化
