@@ -1,4 +1,7 @@
 // server/db/userSql.js
+const sql = require('./sql.js'); // 确保路径正确
+const jwt = require("jsonwebtoken");
+
 const user = {
     // 查询用户名
     queryUserName(option) {
@@ -18,12 +21,27 @@ const user = {
 
     // 新增用户
     insertData(option) {
-        if (!option || !option.userName || !option.password || !option.token) {
-            throw new Error("Option must include valid 'userName', 'password', and 'token' properties.");
+        let { userName, password } = option;
+        if (!userName || !password) {
+            throw new Error("Option must include valid 'userName' and 'password' properties.");
         }
-        return "insert into user (userName, password, token) values (?, ?, ?)"; // 使用参数化查询
+
+        const secret = "secret";
+        const token = jwt.sign({ userName }, secret);
+
+        return new Promise((resolve, reject) => {
+            sql.query(
+                "INSERT INTO user (userName, password, token) VALUES (?, ?, ?)",
+                [userName, password, token],
+                (error, results) => {
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(results);
+                }
+            );
+        });
     }
 };
 
-// 使用标准的模块导出方式
 module.exports = user;
