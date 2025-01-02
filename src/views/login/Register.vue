@@ -33,7 +33,7 @@
           class="button register-button"
           :disabled="isLoading"
         >
-          {{ isLoading ? "注册中..." : "注册" }}
+          注册
         </button>
       </form>
       <div class="form-links">

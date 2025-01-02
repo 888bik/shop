@@ -15,7 +15,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
-      '@': path.resolve(__dirname, 'src'),
       'element-plus': path.resolve(__dirname, 'node_modules/element-plus'),
     },
   },

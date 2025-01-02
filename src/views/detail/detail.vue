@@ -34,6 +34,7 @@ import NavBar from "@/components/common/navbar/NavBar.vue";
 import axios from "axios";
 import getAssetUrl from "@/utils/load_assets";
 import http from '@/components/common/api/request.js';
+import { showToast } from "vant"; // 导入 showToast 方法
 
 // 接收路由传递的 `商品id` 参数
 const props = defineProps({
@@ -75,8 +76,14 @@ const addToCart = () => {
     }
   }).then(response => {
     console.log('添加购物车', response);
+    if (response.success) {
+      showToast({ message: '添加购物车成功', type: 'success' });
+    } else {
+      showToast({ message: '添加购物车失败', type: 'fail' });
+    }
   }).catch(error => {
     console.error("添加购物车失败:", error);
+    showToast({ message: '添加购物车失败', type: 'fail' });
   });
 }
 // 组件加载时请求数据
