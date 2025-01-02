@@ -28,10 +28,11 @@
 <script setup>
 import { ref } from 'vue';
 import NavBar from '../../components/common/navbar/NavBar.vue';
-import http from '@/common/api/request.js';
+import http from '@/components/common/api/request.js';
 import { showToast } from 'vant';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/index.js';
+import { validationRules, handleError } from './Rules.js';
 
 const userStore = useUserStore();
 const userName = ref('');
@@ -39,19 +40,8 @@ const password = ref('');
 const router = useRouter();
 const isLoading = ref(false); // 添加加载状态
 
-const rules = {
-  userName: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur' }
-  ],
-  password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
-  ]
-};
-
 const validateField = (field, value) => {
-  const fieldRules = rules[field];
+  const fieldRules = validationRules[field];
   let isValid = true;
   for (const rule of fieldRules) {
     if (rule.required && !value.trim()) {
@@ -93,12 +83,7 @@ const handleSubmit = async () => {
     userStore.userLogin(response.data);
     router.push('/my');
   } catch (error) {
-    if (error.response && error.response.data && error.response.data.data) {
-      showToast(error.response.data.data.msg);
-    } else {
-      showToast('登录失败，请重试');
-    }
-    console.error(error);
+    handleError(error, showToast);
   } finally {
     isLoading.value = false; // 设置加载状态为 false
   }
