@@ -1,5 +1,5 @@
-create database if not exists shop charset utf8;
-CREATE TABLE Goods (
+create database if not exists vueshop charset utf8;
+CREATE TABLE products (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   description TEXT,

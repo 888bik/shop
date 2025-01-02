@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-
-const UseGoodsStore = defineStore("goods", {
+// 存储购物车数据
+const UseShopCartListStore = defineStore("shopcartlist", {
   state: () => {
     return {
       allGoods:{},
@@ -13,4 +13,4 @@ const UseGoodsStore = defineStore("goods", {
     }
   }
 })
-export default UseGoodsStore;
+export default UseShopCartListStore;

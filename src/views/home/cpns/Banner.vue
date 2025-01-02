@@ -23,9 +23,11 @@ const props = defineProps({
 
 <style scoped>
 .swipe-image {
+  margin-top: 45px;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  /* height: 100%; */
+  height: 35vh;
+  object-fit: contain;
 }
 
 .custom-indicator {

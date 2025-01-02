@@ -10,7 +10,7 @@
   </div>
   <!-- 推荐 -->
   <div class="recommend-list">
-    <recommend></recommend>
+    <recommend :products="recommendData"></recommend>
   </div>
   <!-- 分割线 -->
   <div class="divider"></div>
@@ -26,6 +26,7 @@ import Banner from "@/views/home/cpns/Banner.vue";
 import Recommend from "@/views/home/cpns/Recommend.vue";
 import TabGoods from "@/views/home/cpns/TabGoods.vue";
 import recommendData from "@/assets/data/recommendData.js";
+
 </script>
 
 <style scoped>
