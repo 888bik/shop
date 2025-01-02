@@ -162,8 +162,9 @@ router.post("/api/register", async (req, res, next) => {
     const [userResult] = await db.query(queryUser, [params.userName]);
 
     if (userResult.length > 0) {
-      return res.status(500).send({
-        code: 500,
+      console.log('用户已存在:', params.userName); // 添加日志
+      return res.status(400).send({
+        code: 400,
         data: {
           msg: "用户已存在",
           success: false,
@@ -172,8 +173,7 @@ router.post("/api/register", async (req, res, next) => {
     }
 
     // 插入新用户
-    const queryInsert = user.insertData(params);
-    await db.query(queryInsert, [params.userName, params.password]);
+    await user.insertData(params); // 直接调用 insertData 方法
 
     return res.send({
       code: 200,
