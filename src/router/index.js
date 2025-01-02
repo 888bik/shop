@@ -13,21 +13,21 @@ const router = createRouter({
       component: () => import("@/views/home/Home.vue"),
     },
     {
-      path: "/category",
-      component: () => import("@/views/category/Category.vue"),
+      path: "/message",
+      component: () => import("@/views/message/Message.vue"),
     },
     {
       path: "/shopCart",
-      component: () => import("@/views/shopcart/Shopcart.vue"),
+      component: () => import("@/views/shopCart/ShopCart.vue"),
     },
     {
       path: "/detail/:id",
-      component: () => import("@/views/detail/Detail.vue"),
+      component: () => import("@/views/detail/detail.vue"),
       props: true,
     },
     {
       path: "/login",
-      name:"login",
+      name: "login",
       component: () => import("@/views/login/Login.vue"),
     },
     {
@@ -36,17 +36,17 @@ const router = createRouter({
       component: () => import("@/views/profile/Profile.vue"),
     },
     {
-      path:"/my",
-      name:"my",
-      component:()=>import("@/views/my/My.vue")
+      path: "/my",
+      name: "my",
+      component: () => import("../views/my/My.vue"),
     },
     {
-      path:"/register",
-      name:"register",
-      component:()=>import("@/views/login/Register.vue")
-    }
-  ]
-})
+      path: "/register",
+      name: "register",
+      component: () => import("../views/login/Register.vue"),
+    },
+  ],
+});
 //路由守卫
 router.beforeEach((to, from, next) => {
   next();

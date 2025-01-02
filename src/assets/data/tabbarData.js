@@ -6,10 +6,10 @@ const tabbarData = [
     path: "/home",
   },
   {
-    text: "分类",
-    image: "tabbar/tab_category.png",
-    imageActive: "tabbar/tab_category_active.png",
-    path: "/category",
+    text: "消息",
+    image: "tabbar/tab_message.png",
+    imageActive: "tabbar/tab_message_active.png",
+    path: "/message",
   },
   {
     text: "购物车",
