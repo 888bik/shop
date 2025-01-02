@@ -15,8 +15,8 @@
   <!-- 分割线 -->
   <div class="divider"></div>
   <!-- 标签商品列表 -->
-  <div class="tab-goods">
-    <tab-goods></tab-goods>
+  <div class="tab-products">
+    <tab-product></tab-product>
   </div>
 </template>
 
@@ -24,7 +24,7 @@
 import NavBar from "@/components/common/navbar/NavBar.vue";
 import Banner from "@/views/home/cpns/Banner.vue";
 import Recommend from "@/views/home/cpns/Recommend.vue";
-import TabGoods from "@/views/home/cpns/TabGoods.vue";
+import TabProduct from "@/views/home/cpns/TabProduct.vue";
 import recommendData from "@/assets/data/recommendData.js";
 
 </script>

@@ -24,7 +24,6 @@ watch(() => route.path, (newPath) => {
 });
 // 根据路径判断是否显示底部导航栏
 function checkFooterVisibility(path) {
-  console.log(path);
   if (path.startsWith("/detail")) {
     showFooter.value = false; // 隐藏底部导航栏
   } else {

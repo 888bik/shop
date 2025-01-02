@@ -8,13 +8,27 @@
 </template>
 
 <script setup>
+import axios from "axios";
 import { ref } from "vue";
 
 const active = ref(0);
+// const fetchProductsByCategoryId = async (id) => {
+//   axios
+//     .get(`http://localhost:3000/api/products/${id}`)
+//     .then((response) => {
+//       if (response.data.success) {
+//         products.value = response.data;
+//       } else {
+//         console.error(response.msg);
+//       }
+//     })
+//     .catch((error) => {
+//       console.error("请求商品信息失败:", error);
+//     });
+// };
 function onClickTab() {
   console.log(active.value);
-  //TODO
-  // fetchTabGoodsByIndex();
+  // fetchProductsByCategoryId();
 }
 </script>
 

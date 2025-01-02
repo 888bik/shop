@@ -26,7 +26,6 @@ module.exports = {
     try {
       console.log("Executing query:", sql, "with params:", params); // 日志记录查询
       const [rows] = await pool.execute(sql, params); // 执行查询
-      console.log(rows);
       return rows; // 返回查询结果
     } catch (error) {
       console.error("Query error:", error); // 错误日志

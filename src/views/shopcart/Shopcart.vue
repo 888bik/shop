@@ -18,7 +18,7 @@
 <script>
 import { reactive, toRefs } from "vue";
 import NavBar from "../../components/common/navbar/NavBar.vue";
-import GoodsList from "@/views/shopCart/cpns/GoodsList.vue";
+import GoodsList from "@/views/shopCart/cpns/CartList.vue";
 export default {
   name: "Home",
   components: {
