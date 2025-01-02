@@ -31,7 +31,9 @@ import NavBar from '../../components/common/navbar/NavBar.vue';
 import http from '@/common/api/request.js';
 import { showToast } from 'vant';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/index.js';
 
+const userStore = useUserStore();
 const userName = ref('');
 const password = ref('');
 const router = useRouter();
@@ -88,6 +90,7 @@ const handleSubmit = async () => {
     console.log(response);
     showToast('登录成功');
     // 登录成功后的处理逻辑
+    userStore.userLogin(response.data);
     router.push('/my');
   } catch (error) {
     if (error.response && error.response.data && error.response.data.data) {
@@ -109,8 +112,4 @@ const handleRegister = () => {
 
 <style lang="scss" scoped>
 @import 'form-styles.scss';
-
-.login-form {
-  // 可以在这里添加特定于登录表单的样式
-}
 </style>
