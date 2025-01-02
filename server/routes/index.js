@@ -3,6 +3,7 @@ var router = express.Router();
 var db = require("../db/sql.js"); // 导入 sql.js 中的 query 方法
 var user = require("../db/userSql.js");
 const product = require("../db/productSql.js");
+const jwt = require("jsonwebtoken");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -105,6 +106,7 @@ router.get("/api/products/:id", async function (req, res, next) {
     });
   }
 });
+
 // 查询根据分类ID获取商品
 router.get("/api/products/category/:id", async (req, res, next) => {
   try {
@@ -128,6 +130,63 @@ router.get("/api/products/category/:id", async (req, res, next) => {
     res.status(500).send({
       success: false,
       msg: "服务器错误",
+    });
+  }
+});
+
+// 添加购物车
+router.post("/api/addCart", async (req, res, next) => {
+  try {
+    const { id } = req.params; // 获取商品的 id
+    let token = req.headers.token;
+    let tokenObj = jwt.decode(token);
+    
+    // 使用参数化查询防止SQL注入
+    const [userResult] = await db.query('SELECT * FROM user WHERE userName = ?', [tokenObj.userName]);
+    if (userResult.length === 0) {
+      return res.status(400).send({
+        code: 400,
+        data: {
+          msg: "用户不存在",
+          success: false,
+        },
+      });
+    }
+    let userId = userResult[0].id;
+
+    const [productResult] = await db.query('SELECT * FROM products WHERE id = ?', [id]);
+    if (productResult.length === 0) {
+      return res.status(404).send({
+        code: 404,
+        data: {
+          msg: "商品未找到",
+          success: false,
+        },
+      });
+    }
+    let productName = productResult[0].title;
+    let productPrice = productResult[0].price;
+    let productImgUrl = productResult[0].image_url;
+
+    await db.query('INSERT INTO carts (userId, productName, productPrice, productImgUrl) VALUES (?, ?, ?, ?)', [
+      userId, productName, productPrice, productImgUrl
+    ]);
+
+    return res.send({
+      data: {
+        code: 200,
+        msg: "添加购物车成功",
+        success: true,
+      }
+    });
+  } catch (error) {
+    console.error("添加购物车失败:", error);
+    return res.status(500).send({
+      code: 500,
+      data: {
+        msg: "服务器错误",
+        success: false,
+      },
     });
   }
 });

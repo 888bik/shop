@@ -22,11 +22,7 @@
     <van-action-bar>
       <van-action-bar-icon icon="chat-o" text="客服" />
       <van-action-bar-icon icon="shop-o" text="店铺" />
-      <van-action-bar-button
-        type="warning"
-        text="加入购物车"
-        @click="addToCart"
-      />
+      <van-action-bar-button type="warning" text="加入购物车" @click="addToCart" />
       <van-action-bar-button color="red" type="danger" text="立即购买" />
     </van-action-bar>
   </div>
@@ -37,6 +33,9 @@ import { defineProps, onMounted, ref } from "vue";
 import NavBar from "@/components/common/navbar/NavBar.vue";
 import axios from "axios";
 import getAssetUrl from "@/utils/load_assets";
+import { countDownProps } from "vant";
+import http from '@/components/common/api/request.js';
+
 // 接收路由传递的 `商品id` 参数
 const props = defineProps({
   id: {
@@ -63,8 +62,20 @@ const fetchProductsById = async (id) => {
     });
 };
 //添加购物车功能
-function addToCart() {
-  console.log("点击");
+const addToCart = () => {
+  const id = props.id;
+  http.$axios({
+    url: '/api/addCart',
+    method: 'post',
+    data: {
+      id: id
+    },
+    headers: {
+      token: true
+    }
+  }).then(response => {
+    console.log('添加购物车', response);
+  })
 }
 // 组件加载时请求数据
 onMounted(() => {
