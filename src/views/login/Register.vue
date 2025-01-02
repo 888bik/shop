@@ -1,4 +1,3 @@
-// src/views/login/Register.vue
 <template>
   <nav-bar>
     <template v-slot:default>注册</template>
@@ -112,12 +111,11 @@ const handleSubmit = async () => {
     // 注册成功后的处理逻辑，例如跳转到登录页面
     router.push('/login');
   } catch (error) {
-    // 移除控制台日志
+    console.error('注册失败:', error); // 添加调试日志
+
     if (error.response && error.response.data) {
       const responseData = error.response.data;
-      if (responseData.data && responseData.data.msg) {
-        showToast(responseData.data.msg);
-      } else if (responseData.msg) {
+      if (responseData.msg) {
         showToast(responseData.msg);
       } else {
         showToast('注册失败，请重试');
@@ -129,6 +127,7 @@ const handleSubmit = async () => {
     isLoading.value = false; // 设置加载状态为 false
   }
 };
+
 const handleLogin = () => {
   // 跳转到/login路由
   router.push('/login');

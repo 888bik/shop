@@ -14,5 +14,5 @@ const product = {
     return "SELECT * FROM products WHERE category_id = ?"; // 使用参数化查询
   },
 };
-// module.exports = product;
-export default product;
+module.exports = product;
+// export default product;

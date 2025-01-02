@@ -1,9 +1,8 @@
-// server/routes/index.js
 var express = require("express");
 var router = express.Router();
 var db = require("../db/sql.js"); // 导入 sql.js 中的 query 方法
 var user = require("../db/userSql.js");
-const product = require("server/db/productSql.js");
+const product = require("../db/productSql.js");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -33,7 +32,7 @@ router.post("/api/login", async function (req, res, next) {
     const queryUser = user.queryUserName(params);
 
     // 使用 await 等待查询结果
-    const [result] = await db.query(queryUser, [params.userName]);
+    const [result] = await db.queryUser(queryUser, [params.userName]);
 
     if (result.length === 0) {
       return res.send({
@@ -83,7 +82,7 @@ router.get("/api/products/:id", async function (req, res, next) {
   try {
     const { id } = req.params; // 获取商品的 id
     const sql = product.queryProductById({ id }); // 查询单个商品的 SQL 语句
-    const [result] = await db.query(sql, [id]);
+    const [result] = await db.queryUser(sql, [id]);
     if (result.length === 0) {
       return res.status(404).json({
         code: 404,
@@ -140,7 +139,6 @@ router.get("/api/products/:id", async function (req, res, next) {
 
 // 注册
 router.post("/api/register", async (req, res, next) => {
-  try {
     // 验证输入
     if (!req.body.userName || !req.body.password) {
       return res.status(400).send({
@@ -159,8 +157,7 @@ router.post("/api/register", async (req, res, next) => {
 
     // 检查用户是否已存在
     const queryUser = user.queryUserName(params);
-    const [userResult] = await db.query(queryUser, [params.userName]);
-
+    const [userResult] = await db.queryUser(queryUser, [params.userName]);
     if (userResult.length > 0) {
       console.log('用户已存在:', params.userName); // 添加日志
       return res.status(400).send({
@@ -182,16 +179,6 @@ router.post("/api/register", async (req, res, next) => {
         success: true,
       },
     });
-  } catch (error) {
-    console.error("Register failed:", error);
-    return res.status(500).send({
-      code: 500,
-      data: {
-        msg: "服务器错误",
-        success: false,
-      },
-    });
-  }
 });
 
 module.exports = router;
