@@ -3,7 +3,7 @@ var express = require("express");
 var router = express.Router();
 var db = require("../db/sql.js"); // 导入 sql.js 中的 query 方法
 var user = require("../db/userSql.js");
-const product = require("server/db/productSql.js");
+const product = require("../db/productSql.js");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -83,7 +83,7 @@ router.get("/api/products/:id", async function (req, res, next) {
   try {
     const { id } = req.params; // 获取商品的 id
     const sql = product.queryProductById({ id }); // 查询单个商品的 SQL 语句
-    const [result] = await db.query(sql, [id]);
+    const [result] = await db.queryProduct(sql, [id]);
     if (result.length === 0) {
       return res.status(404).json({
         code: 404,
@@ -91,7 +91,6 @@ router.get("/api/products/:id", async function (req, res, next) {
         success: false,
       });
     }
-
     return res.status(200).json({
       code: 200,
       msg: "商品信息查询成功",
@@ -107,36 +106,32 @@ router.get("/api/products/:id", async function (req, res, next) {
     });
   }
 });
-// 根据分类id查询商品
-// router.get("/api/products/:category_id", async function (req, res, next) {
-//   try {
-//     const { id } = req.params; // 获取商品的 id
-//     const sql = product.queryProductByCategory({ id });
-//     console.log(sql);
-//     const [result] = await db.query(sql, [id]);
-//     if (result.length === 0) {
-//       return res.status(404).json({
-//         code: 404,
-//         msg: "商品未找到",
-//         success: false,
-//       });
-//     }
-
-//     return res.status(200).json({
-//       code: 200,
-//       msg: "商品信息查询成功",
-//       success: true,
-//       data: result, // 返回找到的商品
-//     });
-//   } catch (error) {
-//     console.error("查询商品失败:", error);
-//     return res.status(500).json({
-//       code: 500,
-//       msg: "服务器错误",
-//       success: false,
-//     });
-//   }
-// });
+// 查询根据分类ID获取商品
+router.get("/api/products/category/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    // 查询数据库获取该分类下的商品
+    const sql = product.queryProductByCategoryId({ id: id });
+    const [results] = await db.queryProduct(sql, [id]);
+    if (results.length > 0) {
+      res.send({
+        success: true,
+        products: results,
+      });
+    } else {
+      res.send({
+        success: false,
+        msg: "没有找到该分类下的商品",
+      });
+    }
+  } catch (error) {
+    console.error("查询商品失败:", error);
+    res.status(500).send({
+      success: false,
+      msg: "服务器错误",
+    });
+  }
+});
 
 // 注册
 router.post("/api/register", async (req, res, next) => {
@@ -162,7 +157,7 @@ router.post("/api/register", async (req, res, next) => {
     const [userResult] = await db.query(queryUser, [params.userName]);
 
     if (userResult.length > 0) {
-      console.log('用户已存在:', params.userName); // 添加日志
+      console.log("用户已存在:", params.userName); // 添加日志
       return res.status(400).send({
         code: 400,
         data: {

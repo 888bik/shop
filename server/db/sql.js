@@ -22,11 +22,11 @@ const pool = mysql.createPool({
 // };
 module.exports = {
   // 执行查询的函数
-  async query(sql, params = []) {
+  async queryProduct(sql, params = []) {
     try {
       console.log("Executing query:", sql, "with params:", params); // 日志记录查询
       const [rows] = await pool.execute(sql, params); // 执行查询
-      return rows; // 返回查询结果
+      return [rows]; // 返回查询结果
     } catch (error) {
       console.error("Query error:", error); // 错误日志
       throw error; // 抛出错误，供调用者处理
