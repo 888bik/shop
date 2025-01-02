@@ -2,8 +2,8 @@
   <nav-bar>
     <template v-slot:default>用户登陆</template>
   </nav-bar>
-  <div class="login-container">
-    <div class="login-form">
+  <div class="container">
+    <div class="form login-form">
       <h2>登录</h2>
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
@@ -14,12 +14,11 @@
           <label for="password">密码</label>
           <input type="password" id="password" v-model.trim="password" required />
         </div>
-        <button type="submit" class="login-button" :disabled="isLoading">
+        <button type="submit" class="button login-button" :disabled="isLoading">
           {{ isLoading ? '登录中...' : '登录' }}
         </button>
       </form>
       <div class="form-links">
-        <a href="#" @click.prevent="handleForgotPassword">忘记密码</a>
         <a href="#" @click.prevent="handleRegister">立即注册</a>
       </div>
     </div>
@@ -102,11 +101,6 @@ const handleSubmit = async () => {
   }
 };
 
-const handleForgotPassword = () => {
-  // 处理忘记密码逻辑
-  console.log('忘记密码');
-};
-
 const handleRegister = () => {
   // 跳转到/register路由
   router.push('/register');
@@ -114,74 +108,9 @@ const handleRegister = () => {
 </script>
 
 <style lang="scss" scoped>
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f0f2f5;
-}
+@import 'form-styles.scss';
 
 .login-form {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  text-align: center;
-}
-
-h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-}
-
-.form-group {
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
-}
-
-input, .login-button {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 16px;
-}
-
-.login-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-.login-button:hover {
-  background-color: #0056b3;
-}
-
-.form-links {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.form-links a {
-  margin: 0 10px;
-  color: #007bff;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.form-links a:hover {
-  text-decoration: underline;
+  // 可以在这里添加特定于登录表单的样式
 }
 </style>

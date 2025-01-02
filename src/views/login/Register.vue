@@ -2,8 +2,8 @@
   <nav-bar>
     <template v-slot:default>注册</template>
   </nav-bar>
-  <div class="register-container">
-    <div class="register-form">
+  <div class="container">
+    <div class="form register-form">
       <h2>注册</h2>
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
@@ -18,7 +18,7 @@
           <label for="confirmPassword">确认密码</label>
           <input type="password" id="confirmPassword" v-model.trim="confirmPassword" required />
         </div>
-        <button type="submit" class="register-button" :disabled="isLoading">
+        <button type="submit" class="button register-button" :disabled="isLoading">
           {{ isLoading ? '注册中...' : '注册' }}
         </button>
       </form>
@@ -129,74 +129,9 @@ const handleLogin = () => {
 </script>
 
 <style lang="scss" scoped>
-.register-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f0f2f5;
-}
+@import 'form-styles.scss';
 
 .register-form {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  text-align: center;
-}
-
-h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-}
-
-.form-group {
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
-}
-
-input, .register-button {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 16px;
-}
-
-.register-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-.register-button:hover {
-  background-color: #0056b3;
-}
-
-.form-links {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.form-links a {
-  margin: 0 10px;
-  color: #007bff;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.form-links a:hover {
-  text-decoration: underline;
+  // 可以在这里添加特定于注册表单的样式
 }
 </style>
