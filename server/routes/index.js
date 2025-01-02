@@ -1,9 +1,9 @@
 // server/routes/index.js
 var express = require("express");
 var router = express.Router();
-var db = require("../db/sql.js"); // 修改为导入 sql.js 中的 query 方法
-var user = require("../db/userSql.js");
-let product = require("../db/productSql.js")
+var db = require('../db/sql.js'); // 导入 sql.js 中的 query 方法
+var user = require('../db/userSql.js');
+
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
@@ -103,6 +103,62 @@ router.get("/api/products/:id", async function (req, res, next) {
       code: 500,
       msg: "服务器错误",
       success: false,
+    });
+  }
+});
+
+// 注册
+router.post('/api/register', async (req, res, next) => {
+  try {
+    // 验证输入
+    if (!req.body.userName || !req.body.password) {
+      return res.status(400).send({
+        code: 400,
+        data: {
+          msg: '用户名和密码不能为空',
+          success: false
+        }
+      });
+    }
+
+    let params = {
+      userName: req.body.userName,
+      password: req.body.password
+    };
+
+    // 检查用户是否已存在
+    const queryUser = user.queryUserName(params);
+    const [userResult] = await db.query(queryUser, [params.userName]);
+
+    if (userResult.length > 0) {
+      return res.status(500).send({
+        code: 500,
+        data: {
+          msg: '用户已存在',
+          success: false
+        }
+      });
+    }
+
+    // 插入新用户
+    const queryInsert = user.insertData(params);
+    await db.query(queryInsert, [params.userName, params.password]);
+
+    return res.send({
+      code: 200,
+      data: {
+        msg: '注册成功',
+        success: true
+      }
+    });
+  } catch (error) {
+    console.error('Register failed:', error);
+    return res.status(500).send({
+      code: 500,
+      data: {
+        msg: '服务器错误',
+        success: false
+      }
     });
   }
 });

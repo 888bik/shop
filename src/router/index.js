@@ -19,7 +19,7 @@ const router = createRouter({
     },
     {
       path: "/shopCart",
-      component: () => import("@/views/shopCart/ShopCart.vue"),
+      component: () => import("@/views/shopcart/Shopcart.vue"),
     },
     {
       path: "/detail/:id",
@@ -37,14 +37,14 @@ const router = createRouter({
       component: () => import("../views/profile/Profile.vue"),
     },
     {
-      path:"/profile",
-      name:"Profile",
-      component:()=>import("../views/profile/Profile.vue")
-    },    
-    {
       path:"/my",
       name:"my",
       component:()=>import("../views/my/My.vue")
+    },
+    {
+      path:"/register",
+      name:"register",
+      component:()=>import("../views/login/Register.vue")
     }
   ]
 })
