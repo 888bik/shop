@@ -18,11 +18,11 @@ const router = createRouter({
     },
     {
       path: "/shopCart",
-      component: () => import("@/views/shopCart/ShopCart.vue"),
+      component: () => import("@/views/shopcart/Shopcart.vue"),
     },
     {
       path: "/detail/:id",
-      component: () => import("@/views/detail/detail.vue"),
+      component: () => import("@/views/detail/Detail.vue"),
       props: true,
     },
     {

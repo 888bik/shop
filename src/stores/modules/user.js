@@ -8,11 +8,16 @@ export const useUserStore = defineStore('user', {
     }),
     actions: {
         async userLogin(user) {
+            if (!user || !user.token) {
+              console.error('Invalid user object:', user);
+              return;
+            }
+          
             this.loginStatus = true;
             this.token = user.token;
             this.userInfo = user;
             localStorage.setItem('saveUserInfo', JSON.stringify(user));
-        },
+          },
         initUser() {
             const userInfo = JSON.parse(localStorage.getItem('saveUserInfo'));
             if (userInfo) {

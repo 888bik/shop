@@ -1,11 +1,11 @@
 export const validationRules = {
     userName: [
       { required: true, message: '请输入用户名', trigger: 'blur' },
-      { min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur' }
+      { min: 1, max: 16, message: '用户名长度在 1 到 16 个字符', trigger: 'blur' }
     ],
     password: [
       { required: true, message: '请输入密码', trigger: 'blur' },
-      { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
+      { min: 1, max: 12, message: '密码长度在 1 到 12 个字符', trigger: 'blur' }
     ],
     confirmPassword: [
       { required: true, message: '请确认密码', trigger: 'blur' }

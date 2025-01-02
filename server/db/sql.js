@@ -5,17 +5,16 @@ const mysql = require("mysql2/promise"); // 使用 promise 版本
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "1234",
+  password: "123456",
   database: "vueshop",
 });
 
-// 导出一个函数来执行查询
-// module.exports = {
-
-// };
+// 导出一个对象，包含 pool 和查询方法
 module.exports = {
+  pool,
+
   // 执行查询的函数
-  async queryProduct(sql, params = []) {
+  async query(sql, params = []) {
     try {
       console.log("Executing query:", sql, "with params:", params); // 日志记录查询
       const [rows] = await pool.execute(sql, params); // 执行查询
@@ -25,14 +24,7 @@ module.exports = {
       throw error; // 抛出错误，供调用者处理
     }
   },
-  async queryUser(sql, params) {
-    console.log('Executing query:', sql, 'with params:', params); // 添加日志
-    const [rows] = await pool.execute(sql, params); // 执行查询
-    return pool.execute(sql, params).catch(error => {
-      console.error('Query error:', error); // 添加日志
-      throw error;
-    });
-  },
+
   // 查询一个值
   async queryOne(sql, params = []) {
     try {

@@ -78,10 +78,16 @@ const handleSubmit = async () => {
     });
 
     console.log(response);
-    showToast('登录成功');
-    // 登录成功后的处理逻辑
-    userStore.userLogin(response.data);
-    router.push('/my');
+    
+    // 检查后端返回的成功状态
+    if (response.success) {
+      showToast('登录成功');
+      userStore.userLogin(response.data);
+      router.push('/my');
+    } else {
+      // 处理登录失败的情况
+      showToast(response.msg || '登录失败，请重试');
+    }
   } catch (error) {
     handleError(error, showToast);
   } finally {
