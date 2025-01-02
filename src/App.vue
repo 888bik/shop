@@ -32,6 +32,5 @@ function checkFooterVisibility(path) {
   }
 }
 
-</script>
 
 <style lang="less" scoped></style>

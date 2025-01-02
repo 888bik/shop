@@ -1,3 +1,4 @@
+// server/db/userSql.js
 const user = {
     // 查询用户名
     queryUserName(option) {
@@ -17,10 +18,10 @@ const user = {
 
     // 新增用户
     insertData(option) {
-        if (!option || !option.userName || !option.password) {
-            throw new Error("Option must include valid 'userName' and 'password' properties.");
+        if (!option || !option.userName || !option.password || !option.token) {
+            throw new Error("Option must include valid 'userName', 'password', and 'token' properties.");
         }
-        return "insert into user (userName, password) values (?, ?)"; // 使用参数化查询
+        return "insert into user (userName, password, token) values (?, ?, ?)"; // 使用参数化查询
     }
 };
 

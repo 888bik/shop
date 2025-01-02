@@ -131,7 +131,4 @@ const handleLogin = () => {
 <style lang="scss" scoped>
 @import 'form-styles.scss';
 
-.register-form {
-  // 可以在这里添加特定于注册表单的样式
-}
 </style>
