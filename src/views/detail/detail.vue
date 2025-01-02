@@ -6,15 +6,15 @@
   <!-- 商品详情 -->
   <div class="product-detail" v-if="products.data">
     <div class="product-header">
-      <h1>{{ products.data.title }}</h1>
-      <p class="product-price">￥{{ products.data.price }}</p>
+      <h1>{{ products.data[0].title }}</h1>
+      <p class="product-price">￥{{ products.data[0].price }}</p>
     </div>
     <div class="product-image">
-      <img :src="getAssetUrl(products.data.image_url)" alt="Product Image" />
+      <img :src="getAssetUrl(products.data[0].image_url)" alt="Product Image" />
     </div>
     <div class="product-description">
       <h2>商品描述</h2>
-      <p>{{ products.data.description }}</p>
+      <p>{{ products.data[0].description }}</p>
     </div>
   </div>
   <!-- 底部 -->
@@ -22,7 +22,11 @@
     <van-action-bar>
       <van-action-bar-icon icon="chat-o" text="客服" />
       <van-action-bar-icon icon="shop-o" text="店铺" />
-      <van-action-bar-button type="warning" text="加入购物车" @click="addToCart"/>
+      <van-action-bar-button
+        type="warning"
+        text="加入购物车"
+        @click="addToCart"
+      />
       <van-action-bar-button color="red" type="danger" text="立即购买" />
     </van-action-bar>
   </div>

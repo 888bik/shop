@@ -8,8 +8,6 @@ const product = {
   },
   // 根据分类id查询商品
   queryProductByCategoryId(option) {
-    console.log("44444444444444");
-    console.log(option);
     if (!option || !option.id) {
       throw new Error("Option must include a valid 'id' property.");
     }
