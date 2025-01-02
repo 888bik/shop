@@ -12,7 +12,7 @@ export default {
         const userStore = useUserStore();
         option.headers = { ...this.common.headers, ...(option.headers || {}) };
 
-        if (userStore.token) {
+        if (option.headers.token) {
             option.headers.token = userStore.token;
         } else if (option.headers.token !== undefined) {
             console.error('用户未登录');

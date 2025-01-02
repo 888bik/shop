@@ -33,7 +33,6 @@ import { defineProps, onMounted, ref } from "vue";
 import NavBar from "@/components/common/navbar/NavBar.vue";
 import axios from "axios";
 import getAssetUrl from "@/utils/load_assets";
-import { countDownProps } from "vant";
 import http from '@/components/common/api/request.js';
 
 // 接收路由传递的 `商品id` 参数
@@ -46,7 +45,7 @@ const props = defineProps({
 const products = ref({
   data: null,
 });
-//根据路由id查询对应的商品详情
+// 根据路由id查询对应的商品详情
 const fetchProductsById = async (id) => {
   axios
     .get(`http://localhost:3000/api/products/${id}`)
@@ -61,9 +60,14 @@ const fetchProductsById = async (id) => {
       console.error("请求商品信息失败:", error);
     });
 };
-//添加购物车功能
+// 添加购物车功能
 const addToCart = () => {
   const id = props.id;
+  const token = localStorage.getItem('token'); // 从 localStorage 获取 token
+  if (!token) {
+    console.error("Token 不存在，请登录");
+    return; // 如果 token 不存在，停止执行
+  }
   http.$axios({
     url: '/api/addCart',
     method: 'post',
@@ -71,11 +75,13 @@ const addToCart = () => {
       id: id
     },
     headers: {
-      token: true
+      token: token // 将 token 添加到请求头中
     }
   }).then(response => {
     console.log('添加购物车', response);
-  })
+  }).catch(error => {
+    console.error("添加购物车失败:", error);
+  });
 }
 // 组件加载时请求数据
 onMounted(() => {
@@ -100,7 +106,6 @@ onMounted(() => {
 .product-header h1 {
   font-size: 32px;
   font-weight: bold;
-  /* margin-bottom: 5px; */
   margin-top: 30px;
 }
 

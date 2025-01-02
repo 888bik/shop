@@ -140,7 +140,7 @@ router.post("/api/addCart", async (req, res, next) => {
     const { id } = req.params; // 获取商品的 id
     let token = req.headers.token;
     let tokenObj = jwt.decode(token);
-    
+    console.log(tokenObj);
     // 使用参数化查询防止SQL注入
     const [userResult] = await db.query('SELECT * FROM user WHERE userName = ?', [tokenObj.userName]);
     if (userResult.length === 0) {
