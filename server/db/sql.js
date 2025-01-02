@@ -11,11 +11,13 @@ const pool = mysql.createPool({
 
 // 导出一个函数来执行查询
 module.exports = {
-  query(sql, params) {
+  async query(sql, params) {
     console.log('Executing query:', sql, 'with params:', params); // 添加日志
-    return pool.execute(sql, params).catch(error => {
-      console.error('Query error:', error); // 添加日志
-      throw error;
-    });
+    try {
+            return await pool.execute(sql, params);
+        } catch (error) {
+            console.error('Query error:', error); // 添加日志
+            throw error;
+        }
   }
 };

@@ -13,6 +13,14 @@ const user = {
             throw new Error("Option must include valid 'userName' and 'password' properties.");
         }
         return "select * from user where userName = ? and password = ?"; // 使用参数化查询
+    },
+
+    // 新增用户
+    insertData(option) {
+        if (!option || !option.userName || !option.password) {
+            throw new Error("Option must include valid 'userName' and 'password' properties.");
+        }
+        return "insert into user (userName, password) values (?, ?)"; // 使用参数化查询
     }
 };
 

@@ -14,7 +14,9 @@
           <label for="password">密码</label>
           <input type="password" id="password" v-model.trim="password" required />
         </div>
-        <button type="submit" class="login-button">登录</button>
+        <button type="submit" class="login-button" :disabled="isLoading">
+          {{ isLoading ? '登录中...' : '登录' }}
+        </button>
       </form>
       <div class="form-links">
         <a href="#" @click.prevent="handleForgotPassword">忘记密码</a>
@@ -34,6 +36,7 @@ import { useRouter } from 'vue-router';
 const userName = ref('');
 const password = ref('');
 const router = useRouter();
+const isLoading = ref(false); // 添加加载状态
 
 const rules = {
   userName: [
@@ -62,33 +65,41 @@ const validateField = (field, value) => {
   return isValid;
 };
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   // 验证用户名
   if (!validateField('userName', userName.value)) return;
   
   // 验证密码
   if (!validateField('password', password.value)) return;
 
-  console.log('Form validation passed:', { userName: userName.value, password: password.value });
+  isLoading.value = true; // 设置加载状态为 true
 
-  http.$axios({
-    url: '/api/login',
-    method: 'post',
-    data: {
-      userName: userName.value,
-      password: password.value
-    }
-  }).then(res => {
-    console.log(res);
+  try {
+    console.log('Form validation passed:', { userName: userName.value, password: password.value });
+
+    const response = await http.$axios({
+      url: '/api/login',
+      method: 'post',
+      data: {
+        userName: userName.value,
+        password: password.value
+      }
+    });
+
+    console.log(response);
+    showToast('登录成功');
     // 登录成功后的处理逻辑
-  }).catch(error => {
+    router.push('/my');
+  } catch (error) {
     if (error.response && error.response.data && error.response.data.data) {
       showToast(error.response.data.data.msg);
     } else {
       showToast('登录失败，请重试');
     }
     console.error(error);
-  });
+  } finally {
+    isLoading.value = false; // 设置加载状态为 false
+  }
 };
 
 const handleForgotPassword = () => {
