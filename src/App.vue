@@ -31,6 +31,6 @@ function checkFooterVisibility(path) {
     showFooter.value = true; // 显示底部导航栏
   }
 }
-
+</script>
 
 <style lang="less" scoped></style>
