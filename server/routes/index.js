@@ -137,12 +137,12 @@ router.get("/api/products/category/:id", async (req, res, next) => {
 // 添加购物车
 router.post("/api/addCart", async (req, res, next) => {
   try {
-    const { id } = req.params; // 获取商品的 id
+    const { id } = req.body; // 获取商品的 id
     let token = req.headers.token;
     let tokenObj = jwt.decode(token);
     console.log(tokenObj);
     // 使用参数化查询防止SQL注入
-    const [userResult] = await db.query('SELECT * FROM user WHERE userName = ?', [tokenObj.userName]);
+    const [userResult] = await db.queryUser('SELECT * FROM user WHERE userName = ?', [tokenObj.userName]);
     if (userResult.length === 0) {
       return res.status(400).send({
         code: 400,
@@ -154,7 +154,7 @@ router.post("/api/addCart", async (req, res, next) => {
     }
     let userId = userResult[0].id;
 
-    const [productResult] = await db.query('SELECT * FROM products WHERE id = ?', [id]);
+    const [productResult] = await db.queryUser('SELECT * FROM products WHERE id = ?', [id]);
     if (productResult.length === 0) {
       return res.status(404).send({
         code: 404,
@@ -168,7 +168,7 @@ router.post("/api/addCart", async (req, res, next) => {
     let productPrice = productResult[0].price;
     let productImgUrl = productResult[0].image_url;
 
-    await db.query('INSERT INTO carts (userId, productName, productPrice, productImgUrl) VALUES (?, ?, ?, ?)', [
+    await db.queryUser('INSERT INTO products_cart (userId, productName, productPrice, productImgUrl) VALUES (?, ?, ?, ?)', [
       userId, productName, productPrice, productImgUrl
     ]);
 
