@@ -12,14 +12,28 @@
         </div>
         <div class="form-group">
           <label for="password">密码</label>
-          <input type="password" id="password" v-model.trim="password" required />
+          <input
+            type="password"
+            id="password"
+            v-model.trim="password"
+            required
+          />
         </div>
         <div class="form-group">
           <label for="confirmPassword">确认密码</label>
-          <input type="password" id="confirmPassword" v-model.trim="confirmPassword" required />
+          <input
+            type="password"
+            id="confirmPassword"
+            v-model.trim="confirmPassword"
+            required
+          />
         </div>
-        <button type="submit" class="button register-button" :disabled="isLoading">
-          {{ isLoading ? '注册中...' : '注册' }}
+        <button
+          type="submit"
+          class="button register-button"
+          :disabled="isLoading"
+        >
+          {{ isLoading ? "注册中..." : "注册" }}
         </button>
       </form>
       <div class="form-links">
@@ -30,16 +44,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import NavBar from '../../components/common/navbar/NavBar.vue';
-import http from '@/components/common/api/request.js';
-import { showToast } from 'vant';
-import { useRouter } from 'vue-router';
-import { validationRules, handleError } from './Rules.js';
+import { ref } from "vue";
+import NavBar from "../../components/common/navbar/NavBar.vue";
+import http from "@/components/common/api/request.js";
+import { showToast } from "vant";
+import { useRouter } from "vue-router";
+import { validationRules, handleError } from "./Rules.js";
 
-const userName = ref('');
-const password = ref('');
-const confirmPassword = ref('');
+const userName = ref("");
+const password = ref("");
+const confirmPassword = ref("");
 const router = useRouter();
 const isLoading = ref(false); // 添加加载状态
 
@@ -56,7 +70,10 @@ const validateField = (field, value) => {
       showToast(rule.message);
       return false;
     }
-    if (rule.min && value.length < rule.min || rule.max && value.length > rule.max) {
+    if (
+      (rule.min && value.length < rule.min) ||
+      (rule.max && value.length > rule.max)
+    ) {
       showToast(rule.message);
       return false;
     }
@@ -70,33 +87,40 @@ const validateField = (field, value) => {
 
 const handleSubmit = async () => {
   // 验证用户名
-  if (!validateField('userName', userName.value)) return;
-  
+  if (!validateField("userName", userName.value)) return;
+
   // 验证密码
-  if (!validateField('password', password.value)) return;
-  
+  if (!validateField("password", password.value)) return;
+
   // 验证确认密码
-  if (!validateField('confirmPassword', confirmPassword.value)) return;
+  if (!validateField("confirmPassword", confirmPassword.value)) return;
 
   isLoading.value = true; // 设置加载状态为 true
 
   try {
-    console.log('Form validation passed:', { userName: userName.value, password: password.value });
+    console.log("Form validation passed:", {
+      userName: userName.value,
+      password: password.value,
+    });
 
     const response = await http.$axios({
-      url: '/api/register',
-      method: 'post',
+      url: "/api/register",
+      method: "post",
       data: {
         userName: userName.value,
-        password: password.value
-      }
+        password: password.value,
+      },
     });
 
     console.log(response);
-    showToast('注册成功');
-    // 注册成功后的处理逻辑，例如跳转到登录页面
-    router.push('/login');
+    if (response.status === 200) {
+      showToast("注册成功");
+      router.push("/login");
+    } else {
+      showToast("注册失败,请重新尝试");
+    }
   } catch (error) {
+    console.log("Error", error);
     handleError(error, showToast);
   } finally {
     isLoading.value = false; // 设置加载状态为 false
@@ -105,10 +129,10 @@ const handleSubmit = async () => {
 
 const handleLogin = () => {
   // 跳转到/login路由
-  router.push('/login');
+  router.push("/login");
 };
 </script>
 
 <style lang="scss" scoped>
-@import 'form-styles.scss';
+@import "form-styles.scss";
 </style>

@@ -22,7 +22,7 @@ const router = createRouter({
     },
     {
       path: "/detail/:id",
-      component: () => import("@/views/detail/Detail.vue"),
+      component: () => import("@/views/detail/detail.vue"),
       props: true,
     },
     {
