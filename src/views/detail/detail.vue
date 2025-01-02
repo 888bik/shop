@@ -64,10 +64,6 @@ const fetchProductsById = async (id) => {
 const addToCart = () => {
   const id = props.id;
   const token = localStorage.getItem('token'); // 从 localStorage 获取 token
-  if (!token) {
-    console.error("Token 不存在，请登录");
-    return; // 如果 token 不存在，停止执行
-  }
   http.$axios({
     url: '/api/addCart',
     method: 'post',
