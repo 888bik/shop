@@ -7,6 +7,8 @@ import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import pinia from "./stores/index";
+import vant from 'vant';
+import 'vant/lib/index.css';
 
 const app = createApp(App);
 
@@ -20,4 +22,4 @@ try {
 }
 
 // 使用单个 Pinia 实例
-app.use(ElementPlus).use(router).use(pinia).mount("#app");
+app.use(ElementPlus).use(router).use(pinia).use(vant).mount("#app");

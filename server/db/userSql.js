@@ -30,7 +30,7 @@ const user = {
         const token = jwt.sign({ userName }, secret);
 
         return new Promise((resolve, reject) => {
-            sql.query(
+            sql.queryUser(
                 "INSERT INTO user (userName, password, token) VALUES (?, ?, ?)",
                 [userName, password, token],
                 (error, results) => {
