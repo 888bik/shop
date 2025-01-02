@@ -12,6 +12,7 @@
             :title="product.title"
             :desc="product.description"
             :price="`¥${product.price}`"
+            @click="goToProductDetail(product.id)"
           />
         </div>
       </div>
@@ -31,6 +32,7 @@
             :title="product.title"
             :desc="product.description"
             :price="`¥${product.price}`"
+            @click="goToProductDetail(product.id)"
           />
         </div>
       </div>
@@ -50,6 +52,7 @@
             :title="product.title"
             :desc="product.description"
             :price="`¥${product.price}`"
+            @click="goToProductDetail(product.id)"
           />
         </div>
       </div>
@@ -69,6 +72,7 @@
             :title="product.title"
             :desc="product.description"
             :price="`¥${product.price}`"
+            @click="goToProductDetail(product.id)"
           />
         </div>
       </div>
@@ -80,6 +84,7 @@
 </template>
 
 <script setup>
+import router from "@/router";
 import getAssetUrl from "@/utils/load_assets";
 import axios from "axios";
 import { ref, watchEffect } from "vue";
@@ -104,6 +109,10 @@ const fetchProductsByCategoryId = async (id) => {
 function onClickTab() {
   const currentIndex = active.value;
   fetchProductsByCategoryId(currentIndex + 1);
+}
+//监听列表商品跳转详情页
+function goToProductDetail(productId) {
+  router.push(`/detail/${productId}`);
 }
 //监听tab的点击
 watchEffect(() => {
