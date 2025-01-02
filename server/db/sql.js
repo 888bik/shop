@@ -5,7 +5,7 @@ const mysql = require("mysql2/promise"); // 使用 promise 版本
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "1234",
+  password: "123456",
   database: "vueshop",
 });
 

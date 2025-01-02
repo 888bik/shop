@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 export const useUserStore = defineStore('user', {
     state: () => ({
-        userInfo: {}, // 注意这里应该用括号包裹对象
+        userInfo: {},
         token: null,
         loginStatus: false
     }),

@@ -35,7 +35,7 @@ import NavBar from '../../components/common/navbar/NavBar.vue';
 import http from '@/components/common/api/request.js';
 import { showToast } from 'vant';
 import { useRouter } from 'vue-router';
-import { validationRules, handleError } from '.Login.vue';
+import { validationRules, handleError } from './Rules.js';
 
 const userName = ref('');
 const password = ref('');

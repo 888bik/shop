@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/home/Home.vue";
 const base = import.meta.VITE_BASE_URL || "/";
 const router = createRouter({
   history: createWebHistory(base),
@@ -34,7 +33,7 @@ const router = createRouter({
     {
       path: "/profile",
       name: "Profile",
-      component: () => import("../views/profile/Profile.vue"),
+      component: () => import("@/views/profile/Profile.vue"),
     },
     {
       path: "/my",
