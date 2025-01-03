@@ -11,38 +11,41 @@ const router = createRouter({
     {
       path: "/home",
       component: () => import("@/views/home/Home.vue"),
+      name: "主页",
     },
     {
       path: "/message",
       component: () => import("@/views/message/Message.vue"),
+      name: "消息",
     },
     {
       path: "/shopCart",
-      component: () => import("@/views/shopcart/Shopcart.vue"),
+      component: () => import("@/views/shopCart/ShopCart.vue"),
+      name: "购物车",
     },
     {
       path: "/detail/:id",
-      component: () => import("@/views/detail/Detail.vue"),
+      component: () => import("@/views/detail/detail.vue"),
       props: true,
     },
     {
       path: "/login",
-      name: "login",
+      name: "登录",
       component: () => import("@/views/login/Login.vue"),
     },
     {
       path: "/profile",
-      name: "Profile",
+      name: "个人",
       component: () => import("@/views/profile/Profile.vue"),
     },
     {
       path: "/my",
-      name: "my",
+      name: "我的",
       component: () => import("../views/my/My.vue"),
     },
     {
       path: "/register",
-      name: "register",
+      name: "注册",
       component: () => import("../views/login/Register.vue"),
     },
   ],

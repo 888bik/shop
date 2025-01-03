@@ -141,7 +141,10 @@ router.post("/api/addCart", async (req, res, next) => {
     let tokenObj = jwt.decode(token);
     console.log(tokenObj);
     // 使用参数化查询防止SQL注入
-    const [userResult] = await db.query('SELECT * FROM user WHERE userName = ?', [tokenObj.userName]);
+    const [userResult] = await db.query(
+      "SELECT * FROM user WHERE userName = ?",
+      [tokenObj.userName]
+    );
     if (userResult.length === 0) {
       return res.status(400).send({
         code: 400,
@@ -153,7 +156,10 @@ router.post("/api/addCart", async (req, res, next) => {
     }
     let userId = userResult[0].id;
 
-    const [productResult] = await db.query('SELECT * FROM products WHERE id = ?', [id]);
+    const [productResult] = await db.query(
+      "SELECT * FROM products WHERE id = ?",
+      [id]
+    );
     if (productResult.length === 0) {
       return res.status(404).send({
         code: 404,
@@ -167,13 +173,10 @@ router.post("/api/addCart", async (req, res, next) => {
     let productPrice = productResult[0].price;
     let productImgUrl = productResult[0].image_url;
 
-    await db.queryUser(
+    await db.query(
       "INSERT INTO products_cart (userId, productName, productPrice, productImgUrl) VALUES (?, ?, ?, ?)",
       [userId, productName, productPrice, productImgUrl]
     );
-    await db.query('INSERT INTO products_cart (userId, productName, productPrice, productImgUrl) VALUES (?, ?, ?, ?)', [
-      userId, productName, productPrice, productImgUrl
-    ]);
 
     return res.send({
       data: {
@@ -247,18 +250,26 @@ router.post("/api/register", async (req, res, next) => {
         },
       });
     }
-
     // 插入新用户
-    await user.insertData(params); // 直接调用 insertData 方法
-
-    return res.send({
-      code: 200,
-      data: {
-        msg: "注册成功",
-        success: true,
-        data: params,
-      },
-    });
+    const insertResult = await user.insertData(params); // 直接调用 insertData 方法
+    if (insertResult.success) {
+      return res.send({
+        code: 200,
+        data: {
+          msg: insertResult.message, // 返回成功消息
+          success: true,
+          data: params,
+        },
+      });
+    } else {
+      return res.status(500).send({
+        code: 500,
+        data: {
+          msg: "注册失败",
+          success: false,
+        },
+      });
+    }
   } catch (error) {
     console.error("Register failed:", error);
     return res.status(500).send({

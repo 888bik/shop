@@ -27,7 +27,7 @@ import { toRef } from "vue";
 
 const props = defineProps({
   tabbarData: {
-    type: Array, 
+    type: Array,
     default: () => [],
   },
 });
@@ -38,7 +38,6 @@ const currentIndex = toRef(0);
 function tabbarClick(index, item) {
   currentIndex.value = index;
   router.push(item.path);
-  console.log(item);
 }
 </script>
 

@@ -5,7 +5,7 @@ const mysql = require("mysql2/promise"); // 使用 promise 版本
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "123456",
+  password: "1234",
   database: "vueshop",
 });
 
@@ -15,6 +15,7 @@ module.exports = {
 
   // 执行查询的函数
   async query(sql, params = []) {
+    console.log("666666666666666666666666");
     try {
       console.log("Executing query:", sql, "with params:", params); // 日志记录查询
       const [rows] = await pool.execute(sql, params); // 执行查询
@@ -23,14 +24,6 @@ module.exports = {
       console.error("Query error:", error); // 错误日志
       throw error; // 抛出错误，供调用者处理
     }
-  },
-  async queryUser(sql, params) {
-    console.log("Executing query:", sql, "with params:", params); // 添加日志
-    const [rows] = await pool.execute(sql, params); // 执行查询
-    return pool.execute(sql, params).catch((error) => {
-      console.error("Query error:", error); // 添加日志
-      throw error;
-    });
   },
   async queryCart(sql, params) {
     console.log("Executing query:", sql, "with params:", params); // 添加日志
@@ -60,7 +53,11 @@ module.exports = {
   async insert(sql, params = []) {
     try {
       const [result] = await pool.execute(sql, params);
-      return result.insertId; // 返回插入的 ID
+      return {
+        success: true,
+        message: "新增用户成功",
+        affectedRows: result.affectedRows,
+      };
     } catch (error) {
       console.error("Insert error:", error);
       throw error;

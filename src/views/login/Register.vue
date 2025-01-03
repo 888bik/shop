@@ -50,12 +50,11 @@ import http from "@/components/common/api/request.js";
 import { showToast } from "vant";
 import { useRouter } from "vue-router";
 import { validationRules, handleError } from "./Rules.js";
-
 const userName = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const router = useRouter();
-const isLoading = ref(false); // 添加加载状态
+const isLoading = ref(false); // 设置状态
 
 const validateField = (field, value) => {
   const fieldRules = validationRules[field];
@@ -65,7 +64,10 @@ const validateField = (field, value) => {
       showToast(rule.message);
       return false;
     }
-    if (rule.min && value.length < rule.min || rule.max && value.length > rule.max) {
+    if (
+      (rule.min && value.length < rule.min) ||
+      (rule.max && value.length > rule.max)
+    ) {
       showToast(rule.message);
       return false;
     }
@@ -74,6 +76,9 @@ const validateField = (field, value) => {
 };
 
 const handleSubmit = async () => {
+  if (isLoading.value) return; // 如果正在加载，则不允许再次提交
+
+  isLoading.value = true; //设置为加载中
   // 验证用户名
   if (!validateField("userName", userName.value)) return;
 
@@ -82,12 +87,15 @@ const handleSubmit = async () => {
 
   if (password.value !== confirmPassword.value) {
     showToast("两次密码不一致");
+    isLoading.value = false;
     return false;
   }
 
-
   try {
-    console.log('Form validation passed:', { userName: userName.value, password: password.value });
+    console.log("Form validation passed:", {
+      userName: userName.value,
+      password: password.value,
+    });
 
     const response = await http.$axios({
       url: "/api/register",
@@ -98,9 +106,7 @@ const handleSubmit = async () => {
       },
     });
 
-    console.log(response);
-
-    if (response.data.success) {
+    if (response.success) {
       showToast("注册成功");
       router.push("/login");
     } else {
@@ -120,5 +126,5 @@ const handleLogin = () => {
 </script>
 
 <style lang="scss" scoped>
-@import "form-styles.scss";
+@use "@/views/login/form-styles.scss" as *;
 </style>
