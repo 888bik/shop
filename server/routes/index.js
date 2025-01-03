@@ -29,11 +29,10 @@ router.post("/api/login", async function (req, res, next) {
       password: req.body.password,
     };
 
-    // 参数化查询防止 SQL 注入
     const queryUser = user.queryUserName(params);
 
     // 使用 await 等待查询结果
-    const [result] = await db.queryUser(queryUser, [params.userName]);
+    const [result] = await db.query(queryUser, [params.userName]);
 
     if (result.length === 0) {
       return res.send({
@@ -83,7 +82,7 @@ router.get("/api/products/:id", async function (req, res, next) {
   try {
     const { id } = req.params; // 获取商品的 id
     const sql = product.queryProductById({ id }); // 查询单个商品的 SQL 语句
-    const [result] = await db.queryProduct(sql, [id]);
+    const [result] = await db.query(sql, [id]);
     if (result.length === 0) {
       return res.status(404).json({
         code: 404,
@@ -113,7 +112,7 @@ router.get("/api/products/category/:id", async (req, res, next) => {
     const { id } = req.params;
     // 查询数据库获取该分类下的商品
     const sql = product.queryProductByCategoryId({ id: id });
-    const [results] = await db.queryProduct(sql, [id]);
+    const [results] = await db.query(sql, [id]);
     if (results.length > 0) {
       res.send({
         success: true,
@@ -142,10 +141,7 @@ router.post("/api/addCart", async (req, res, next) => {
     let tokenObj = jwt.decode(token);
     console.log(tokenObj);
     // 使用参数化查询防止SQL注入
-    const [userResult] = await db.queryUser(
-      "SELECT * FROM user WHERE userName = ?",
-      [tokenObj.userName]
-    );
+    const [userResult] = await db.query('SELECT * FROM user WHERE userName = ?', [tokenObj.userName]);
     if (userResult.length === 0) {
       return res.status(400).send({
         code: 400,
@@ -157,10 +153,7 @@ router.post("/api/addCart", async (req, res, next) => {
     }
     let userId = userResult[0].id;
 
-    const [productResult] = await db.queryUser(
-      "SELECT * FROM products WHERE id = ?",
-      [id]
-    );
+    const [productResult] = await db.query('SELECT * FROM products WHERE id = ?', [id]);
     if (productResult.length === 0) {
       return res.status(404).send({
         code: 404,
@@ -178,6 +171,9 @@ router.post("/api/addCart", async (req, res, next) => {
       "INSERT INTO products_cart (userId, productName, productPrice, productImgUrl) VALUES (?, ?, ?, ?)",
       [userId, productName, productPrice, productImgUrl]
     );
+    await db.query('INSERT INTO products_cart (userId, productName, productPrice, productImgUrl) VALUES (?, ?, ?, ?)', [
+      userId, productName, productPrice, productImgUrl
+    ]);
 
     return res.send({
       data: {
@@ -240,7 +236,7 @@ router.post("/api/register", async (req, res, next) => {
 
     // 检查用户是否已存在
     const queryUser = user.queryUserName(params);
-    const [userResult] = await db.queryUser(queryUser, [params.userName]);
+    const [userResult] = await db.query(queryUser, [params.userName]);
     if (userResult.length > 0) {
       console.log("用户已存在:", params.userName); // 添加日志
       return res.status(400).send({
@@ -260,6 +256,7 @@ router.post("/api/register", async (req, res, next) => {
       data: {
         msg: "注册成功",
         success: true,
+        data: params,
       },
     });
   } catch (error) {

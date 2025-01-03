@@ -3,6 +3,7 @@ import vue from "@vitejs/plugin-vue";
 import { fileURLToPath, URL } from "node:url";
 import { VantResolver } from 'unplugin-vue-components/resolvers';
 import Components from "unplugin-vue-components/vite";
+import path from 'path';
 
 export default defineConfig({
   plugins: [
@@ -14,6 +15,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+      'element-plus': path.resolve(__dirname, 'node_modules/element-plus'),
     },
   },
   server: {

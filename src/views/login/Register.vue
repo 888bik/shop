@@ -33,7 +33,7 @@
           class="button register-button"
           :disabled="isLoading"
         >
-          {{ isLoading ? "注册中..." : "注册" }}
+          注册
         </button>
       </form>
       <div class="form-links">
@@ -57,11 +57,6 @@ const confirmPassword = ref("");
 const router = useRouter();
 const isLoading = ref(false); // 添加加载状态
 
-// 定义 validateConfirmPassword 函数
-const validateConfirmPassword = (value) => {
-  return value === password.value;
-};
-
 const validateField = (field, value) => {
   const fieldRules = validationRules[field];
   let isValid = true;
@@ -70,14 +65,7 @@ const validateField = (field, value) => {
       showToast(rule.message);
       return false;
     }
-    if (
-      (rule.min && value.length < rule.min) ||
-      (rule.max && value.length > rule.max)
-    ) {
-      showToast(rule.message);
-      return false;
-    }
-    if (rule.validator && !rule.validator(value)) {
+    if (rule.min && value.length < rule.min || rule.max && value.length > rule.max) {
       showToast(rule.message);
       return false;
     }
@@ -92,16 +80,14 @@ const handleSubmit = async () => {
   // 验证密码
   if (!validateField("password", password.value)) return;
 
-  // 验证确认密码
-  if (!validateField("confirmPassword", confirmPassword.value)) return;
+  if (password.value !== confirmPassword.value) {
+    showToast("两次密码不一致");
+    return false;
+  }
 
-  isLoading.value = true; // 设置加载状态为 true
 
   try {
-    console.log("Form validation passed:", {
-      userName: userName.value,
-      password: password.value,
-    });
+    console.log('Form validation passed:', { userName: userName.value, password: password.value });
 
     const response = await http.$axios({
       url: "/api/register",
@@ -113,14 +99,14 @@ const handleSubmit = async () => {
     });
 
     console.log(response);
-    if (response.status === 200) {
+
+    if (response.data.success) {
       showToast("注册成功");
       router.push("/login");
     } else {
-      showToast("注册失败,请重新尝试");
+      showToast(response.data.msg || "注册失败,请重新尝试");
     }
   } catch (error) {
-    console.log("Error", error);
     handleError(error, showToast);
   } finally {
     isLoading.value = false; // 设置加载状态为 false
