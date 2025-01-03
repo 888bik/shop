@@ -8,81 +8,43 @@
     </div>
 
     <!-- 商品列表 -->
-    <div class="GoodsList" v-for="(item, index) in GoodsData" :key="index">
-      <goods-list :index="index"></goods-list>
-      <div class="divider"></div>
+    <div class="GoodsList">
+      <goods-list :data="GoodsData.data" />
+      <!-- 分割线 -->
     </div>
   </div>
 </template>
 
-<script>
-import { reactive, toRefs } from "vue";
+<script setup>
+import { onMounted, ref } from "vue";
 import NavBar from "../../components/common/navbar/NavBar.vue";
-import GoodsList from "@/views/shopCart/cpns/CartList.vue";
-export default {
-  name: "Home",
-  components: {
-    NavBar,
-    GoodsList,
-  },
-  setup() {
-    const state = reactive({
-      count: 0,
-    });
-    //TODO
-    
-    const GoodsData = [
-      {
-        num: 3,
-        price: 9.99,
-        desc: "牛逼",
-        title: "bi",
-        thumb: "@/assets/image/home/image1.png",
-      },
-      {
-        num: 4,
-        price: 9.99,
-        desc: "牛逼",
-        title: "bi",
-        thumb: "@/assets/image/home/image1.png",
-      },
-      {
-        num: 7,
-        price: 9.99,
-        desc: "牛逼",
-        title: "bi",
-        thumb: "@/assets/image/home/image1.png",
-      },
-      {
-        num: 7,
-        price: 9.99,
-        desc: "牛逼",
-        title: "bi",
-        thumb: "@/assets/image/home/image1.png",
-      },
-      {
-        num: 7,
-        price: 9.99,
-        desc: "牛逼",
-        title: "bi",
-        thumb: "@/assets/image/home/image1.png",
-      },
-      ,
-    ];
-    return {
-      ...toRefs(state),
-      GoodsData,
-    };
-  },
+import GoodsList from "@/views/shopCart/cpns/GoodsList.vue";
+import axios from "axios";
+
+// 定义响应式状态
+const GoodsData = ref([]);
+
+// 获取购物车数据
+const fetchCartData = async (id) => {
+  try {
+    const response = await axios.get(`http://localhost:3000/api/cart/${id}`);
+    GoodsData.value = response.data;
+  } catch (error) {
+    console.error("获取购物车数据失败：", error);
+  }
 };
+
+// 在组件挂载时获取用户id并加载数据
+onMounted(() => {
+  const userInfo = JSON.parse(localStorage.getItem("saveUserInfo"));
+  if (userInfo && userInfo.id) {
+    fetchCartData(userInfo.id); // 使用用户ID加载购物车数据
+  }
+});
 </script>
 
 <style lang="less" scoped>
-.divider {
-  width: 100%;
-  height: 5px; /* 控制分割线的厚度 */
-  background-color: white; /* 控制分割线的颜色 */
-}
+
 .page-container {
   display: flex;
   flex-direction: column;

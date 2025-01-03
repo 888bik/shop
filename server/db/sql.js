@@ -26,10 +26,18 @@ module.exports = {
     }
   },
   async queryUser(sql, params) {
-    console.log('Executing query:', sql, 'with params:', params); // 添加日志
+    console.log("Executing query:", sql, "with params:", params); // 添加日志
     const [rows] = await pool.execute(sql, params); // 执行查询
-    return pool.execute(sql, params).catch(error => {
-      console.error('Query error:', error); // 添加日志
+    return pool.execute(sql, params).catch((error) => {
+      console.error("Query error:", error); // 添加日志
+      throw error;
+    });
+  },
+  async queryCart(sql, params) {
+    console.log("Executing query:", sql, "with params:", params); // 添加日志
+    const [rows] = await pool.execute(sql, params);
+    return pool.execute(sql, params).catch((error) => {
+      console.error("Query error:", error); // 添加日志
       throw error;
     });
   },

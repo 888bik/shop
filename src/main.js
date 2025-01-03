@@ -7,8 +7,9 @@ import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import pinia from "./stores/index";
-import vant from 'vant';
-import 'vant/lib/index.css';
+import vant from "vant";
+import "vant/lib/index.css";
+
 
 const app = createApp(App);
 

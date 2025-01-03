@@ -4,7 +4,7 @@ var db = require("../db/sql.js"); // 导入 sql.js 中的 query 方法
 var user = require("../db/userSql.js");
 const product = require("../db/productSql.js");
 const jwt = require("jsonwebtoken");
-
+const cart = require("../db/cartSql.js");
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
@@ -142,7 +142,10 @@ router.post("/api/addCart", async (req, res, next) => {
     let tokenObj = jwt.decode(token);
     console.log(tokenObj);
     // 使用参数化查询防止SQL注入
-    const [userResult] = await db.queryUser('SELECT * FROM user WHERE userName = ?', [tokenObj.userName]);
+    const [userResult] = await db.queryUser(
+      "SELECT * FROM user WHERE userName = ?",
+      [tokenObj.userName]
+    );
     if (userResult.length === 0) {
       return res.status(400).send({
         code: 400,
@@ -154,7 +157,10 @@ router.post("/api/addCart", async (req, res, next) => {
     }
     let userId = userResult[0].id;
 
-    const [productResult] = await db.queryUser('SELECT * FROM products WHERE id = ?', [id]);
+    const [productResult] = await db.queryUser(
+      "SELECT * FROM products WHERE id = ?",
+      [id]
+    );
     if (productResult.length === 0) {
       return res.status(404).send({
         code: 404,
@@ -168,16 +174,17 @@ router.post("/api/addCart", async (req, res, next) => {
     let productPrice = productResult[0].price;
     let productImgUrl = productResult[0].image_url;
 
-    await db.queryUser('INSERT INTO products_cart (userId, productName, productPrice, productImgUrl) VALUES (?, ?, ?, ?)', [
-      userId, productName, productPrice, productImgUrl
-    ]);
+    await db.queryUser(
+      "INSERT INTO products_cart (userId, productName, productPrice, productImgUrl) VALUES (?, ?, ?, ?)",
+      [userId, productName, productPrice, productImgUrl]
+    );
 
     return res.send({
       data: {
         code: 200,
         msg: "添加购物车成功",
         success: true,
-      }
+      },
     });
   } catch (error) {
     console.error("添加购物车失败:", error);
@@ -188,6 +195,27 @@ router.post("/api/addCart", async (req, res, next) => {
         success: false,
       },
     });
+  }
+});
+// 根据用户 ID 查询购物车数据
+router.get("/api/cart/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return res
+      .status(400)
+      .json({ success: false, message: "缺少用户 ID 参数" });
+  }
+
+  try {
+    // 使用数据库查询用户购物车数据
+    const sql = cart.queryCartByUserId({ userId });
+    console.log(sql);
+    const [results] = await db.queryCart(sql, [userId]); // 参数化查询，防止 SQL 注入
+    res.status(200).json({ success: true, data: results });
+  } catch (error) {
+    console.error("查询购物车数据失败:", error);
+    res.status(500).json({ success: false, message: "服务器错误" });
   }
 });
 
