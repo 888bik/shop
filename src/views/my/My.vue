@@ -2,7 +2,7 @@
   <div class="top-nav-bar">
     <header>
       <div class="my-bg">
-        <img src="https://via.placeholder.com/1200x300" alt="Background Image">
+        <img src="D:\Code\My_Html\shop\src\assets\image\my\gdcp.png" alt="Background Image">
       </div>
       <div class="login">
         <div class="login-actore" v-if="loginStatus">
